@@ -44,7 +44,7 @@ export default class Select {
             .querySelector(`[data-value="${newSelectedOption.value}"]`)
         newCustomElement.classList.add("selected")
         // Scroll if selection is out of view
-        newCustomElement.scrollIntoView({block: 'nearest'})
+        newCustomElement.scrollIntoView({ block: 'nearest' })
     }
 
 }
@@ -96,7 +96,7 @@ function setupCustomElement(select) {
 
     // Keyboard control
     let debounceTimout
-    let searchTerm = ""    
+    let searchTerm = ""
     select.customElement.addEventListener("keydown", e => {
         switch (e.code) {
 
@@ -104,36 +104,37 @@ function setupCustomElement(select) {
             case "Space":
                 select.optionsCustomElement.classList.toggle('show')
                 break;
-            
+
             // Navigate
-            case "ArrowUp":
+            case "ArrowUp": {
                 const prevOption = select.options[select.selectedOptionIndex - 1]
-                if (prevOption) select.selectValue(prevOption.value)
+                if (prevOption) { select.selectValue(prevOption.value) }
                 break;
-            case "ArrowDown":
+            }
+            case "ArrowDown": {
                 const nextOption = select.options[select.selectedOptionIndex + 1]
-                if (nextOption) select.selectValue(nextOption.value)
+                if (nextOption) { select.selectValue(nextOption.value) }
                 break;
-            
+            }
             // Close list
             case "Enter":
-                case "Escape":
+            case "Escape":
                 select.optionsCustomElement.classList.remove('show')
                 break;
-            
+
             // Search by default
-            default:
+            default: {
                 clearTimeout(debounceTimout)
                 searchTerm += e.key
                 debounceTimout = setTimeout(() => {
                     searchTerm = ""
                 }, 600)
-                
+
                 const searchedOption = select.options.find(option => {
                     return option.label.toLowerCase().startsWith(searchTerm)
                 })
-                if (searchedOption) select.selectValue(searchedOption.value)
-
+                if (searchedOption) { select.selectValue(searchedOption.value) }
+            }
         }
     })
 }
